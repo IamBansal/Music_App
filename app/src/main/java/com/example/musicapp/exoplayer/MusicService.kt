@@ -2,9 +2,8 @@
 
 package com.example.musicapp.exoplayer
 
-import android.app.PendingIntent
-import android.app.PendingIntent.FLAG_IMMUTABLE
-import android.app.PendingIntent.FLAG_MUTABLE
+import android.annotation.SuppressLint
+import android.app.PendingIntent.*
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
@@ -44,8 +43,6 @@ class MusicService : MediaBrowserServiceCompat() {
 
     private lateinit var musicNotificationManager: MusicNotificationManager
 
-    private val serviceJob = Job()
-//    private val serviceScope = CoroutineScope(Dispatchers.Main + serviceJob)
     private val serviceScope = CoroutineScope(Dispatchers.Main)
 
     private lateinit var mediaSession: MediaSessionCompat
@@ -63,6 +60,7 @@ class MusicService : MediaBrowserServiceCompat() {
             private set
     }
 
+    @SuppressLint("UnspecifiedImmutableFlag")
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate() {
         super.onCreate()
@@ -73,9 +71,9 @@ class MusicService : MediaBrowserServiceCompat() {
 
         val activityIntent = packageManager?.getLaunchIntentForPackage(packageName)?.let {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                PendingIntent.getActivity(this, 0, it, PendingIntent.FLAG_UPDATE_CURRENT or FLAG_IMMUTABLE)
+                getActivity(this, 0, it, FLAG_UPDATE_CURRENT or FLAG_IMMUTABLE)
             } else {
-                PendingIntent.getActivity(this, 0, it, PendingIntent.FLAG_UPDATE_CURRENT)
+                getActivity(this, 0, it, FLAG_UPDATE_CURRENT)
             }
         }
 

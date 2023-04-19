@@ -18,7 +18,7 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
 
-    lateinit var mainViewModel: MainViewModel
+    private lateinit var mainViewModel: MainViewModel
     private lateinit var binding: FragmentHomeBinding
 
     @Inject
